@@ -8,7 +8,21 @@ int main(int argc, char **argv)
     return RUN_ALL_TESTS();
 }
 
-TEST(SoundexEncoding, RetainsSoleLetterOfOneLetterWord)
-{
+class SoundexEncoding : public testing::Test {
+protected:
     Soundex soundex;
+};
+
+
+TEST_F(SoundexEncoding, RetainsSoleLetterOfOneLetterWord)
+{
+    auto encoded = soundex.encode("A");
+
+    ASSERT_EQ(encoded, "A000");
+}
+
+TEST_F(SoundexEncoding, PadsWithZerosToEnsureThreeDigits)
+{
+    auto encoded = soundex.encode("I");
+    ASSERT_EQ(encoded, "I000");
 }
