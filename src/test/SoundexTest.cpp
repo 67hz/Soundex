@@ -31,11 +31,19 @@ TEST_F(SoundexEncoding, ReplacesConsonantsWithAppropriateDigits)
     ASSERT_EQ(soundex.encode("Ax"), "A200");
 }
 
-TEST_F(SoundexEncoding, IgnoresNonAlphabetics) {
+TEST_F(SoundexEncoding, IgnoresNonAlphabetics)
+{
     ASSERT_EQ(soundex.encode("A#"), "A000");
 }
 
-// TEST_F(SoundexEncoding, DISABLED_ReplacesMultipleConsonantsWithDigits) {
-//
-//     ASSERT_EQ(soundex.encode("Acdl"), "A234");
-// }
+TEST_F(SoundexEncoding, ReplacesMultipleConsonantsWithDigits)
+{
+
+    ASSERT_EQ(soundex.encode("Acdl"), "A234");
+}
+
+TEST_F(SoundexEncoding, LimitsLengthToFourCharacters)
+{
+    ASSERT_EQ(soundex.encode("Dcdlb").length(), 4u);
+}
+    

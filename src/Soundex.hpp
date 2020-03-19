@@ -21,10 +21,18 @@ private:
         return word.substr(1);
     }
 
+    bool isComplete(const std::string& encoding) const {
+        return encoding.length() == MaxCodeLength - 1;
+    }
+
     std::string encodedDigits(const std::string& word) const {
-        if (word.empty())
-            return "";
-        return encodedDigit(word.front());
+        std::string encoding;
+        for (auto letter : word)
+        {
+            if (isComplete(encoding)) break;
+            encoding += encodedDigit(letter);
+        }
+        return encoding;
     }
 
     std::string zeroPad(const std::string& word) const {
