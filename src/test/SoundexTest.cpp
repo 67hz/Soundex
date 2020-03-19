@@ -28,7 +28,14 @@ TEST_F(SoundexEncoding, PadsWithZerosToEnsureThreeDigits)
 
 TEST_F(SoundexEncoding, ReplacesConsonantsWithAppropriateDigits)
 {
-    EXPECT_EQ(soundex.encode("Ab"), "A100");
-    EXPECT_EQ(soundex.encode("Ac"), "A200");
-    EXPECT_EQ(soundex.encode("Ad"), "A300");
+    ASSERT_EQ(soundex.encode("Ax"), "A200");
 }
+
+TEST_F(SoundexEncoding, IgnoresNonAlphabetics) {
+    ASSERT_EQ(soundex.encode("A#"), "A000");
+}
+
+// TEST_F(SoundexEncoding, DISABLED_ReplacesMultipleConsonantsWithDigits) {
+//
+//     ASSERT_EQ(soundex.encode("Acdl"), "A234");
+// }
