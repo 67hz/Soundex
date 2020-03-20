@@ -1,3 +1,11 @@
+/**
+ * Assumptions beyond final solution:
+ *
+ * An empty string should return an empty string, NOT a zero padded string.
+ * e.g, soundex.encode("") == ""
+ *
+ */
+
 #include <gtest/gtest.h>
 #include <string>
 #include "Soundex.hpp"
@@ -80,5 +88,10 @@ TEST_F(SoundexEncoding, CombinesDuplicateCodesWhen2ndLetterDuplicates1st)
 TEST_F(SoundexEncoding, DoesNotDuplicateEncodingsSeparatedByVowels)
 {
     ASSERT_EQ(soundex.encode("Jbob"), "J110");
+}
+
+TEST_F(SoundexEncoding, ReturnEmptyStringGivenAnEmptyString)
+{
+    ASSERT_EQ(soundex.encode(""), "");
 }
 
