@@ -1,13 +1,14 @@
 #ifndef SOUNDEX_H_
 #define SOUNDEX_H_
 
+#include <cctype>
 #include <string>
 #include <unordered_map>
 
 class Soundex {
 public:
     std::string encode(const std::string& word) const {
-        return zeroPad(head(word) + encodedDigits(tail(word)));
+        return zeroPad(upperFront(head(word)) + encodedDigits(tail(word)));
     }
 
     std::string encodedDigit(const char letter) const {
@@ -21,11 +22,12 @@ public:
             {'r', "6"}
         };
         auto it = encodings.find(letter);
-        return it == encodings.end() ? "" : it->second;
+        return it == encodings.end() ? NotADigit : it->second;
     }
 
 private:
     static const size_t MaxCodeLength{4};
+    const std::string NotADigit{"*"};
 
     std::string head(const std::string& word) const {
         return word.substr(0, 1);
@@ -36,8 +38,12 @@ private:
     }
 
     std::string lastDigit(const std::string& encoding) const {
-        if (encoding.empty()) return "";
+        if (encoding.empty()) return NotADigit;
         return std::string(1, encoding.back());
+    }
+
+    std::string upperFront(const std::string& string) const {
+        return std::string(1, std::toupper(static_cast<unsigned char>(string.front())));
     }
 
     bool isComplete(const std::string& encoding) const {
@@ -49,7 +55,8 @@ private:
         for (auto letter : word)
         {
             if (isComplete(encoding)) break;
-            if (encodedDigit(letter) != lastDigit(encoding))
+            auto digit = encodedDigit(letter);
+            if (digit != NotADigit && digit != lastDigit(encoding))
                 encoding += encodedDigit(letter);
         }
         return encoding;

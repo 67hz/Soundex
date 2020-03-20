@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <string>
 #include "Soundex.hpp"
 
 
@@ -49,7 +50,7 @@ TEST_F(SoundexEncoding, LimitsLengthToFourCharacters)
 
 TEST_F(SoundexEncoding, IgnoresVowelLikeLetters)
 {
-    ASSERT_EQ(soundex.encode("Baeiouhycdl"), "B234");
+    ASSERT_EQ(soundex.encode("BaAeEiIoOuUhHyYcdl"), "B234");
 }
 
 TEST_F(SoundexEncoding, CombinesDuplicateEncodings)
@@ -58,6 +59,12 @@ TEST_F(SoundexEncoding, CombinesDuplicateEncodings)
     ASSERT_EQ(soundex.encodedDigit('c'), soundex.encodedDigit('g'));
     ASSERT_EQ(soundex.encodedDigit('d'), soundex.encodedDigit('t'));
     ASSERT_EQ(soundex.encode("Abfcgdt"), "A123");
+}
+
+TEST_F(SoundexEncoding, UppercasesFirstLetter)
+{
+    auto firstLetterOfEncoding = soundex.encode("abcd").substr(0,1);
+    ASSERT_EQ(firstLetterOfEncoding, "A");
 }
 
     
