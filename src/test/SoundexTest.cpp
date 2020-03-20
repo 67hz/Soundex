@@ -76,4 +76,9 @@ TEST_F(SoundexEncoding, CombinesDuplicateCodesWhen2ndLetterDuplicates1st)
 {
     ASSERT_EQ(soundex.encode("Bbcd"), "B230");
 }
-    
+
+TEST_F(SoundexEncoding, DoesNotDuplicateEncodingsSeparatedByVowels)
+{
+    ASSERT_EQ(soundex.encode("Jbob"), "J110");
+}
+
