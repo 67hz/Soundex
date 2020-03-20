@@ -67,4 +67,9 @@ TEST_F(SoundexEncoding, UppercasesFirstLetter)
     ASSERT_EQ(firstLetterOfEncoding, "A");
 }
 
+TEST_F(SoundexEncoding, IgnoresCaseWhenEncodingConsonants)
+{
+    ASSERT_EQ(soundex.encode("BCDL"), soundex.encode("Bcdl"));
+}
+
     
